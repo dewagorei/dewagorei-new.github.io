@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>watazakoチャンネル紹介</title>
+  <title>watazkpチャンネル紹介</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* ネオン文字（明るさ控えめ） */
@@ -82,7 +82,7 @@
   <section id="about" class="container mx-auto p-6 my-8 bg-gray-900/80 backdrop-blur-md rounded-xl shadow-lg relative z-10">
     <h2 class="text-2xl sm:text-2xl md:text-3xl font-semibold mb-4 neon-text text-center md:text-left">チャンネル紹介</h2>
     <p class="mb-4 text-base sm:text-base md:text-lg text-gray-200">
-      watazakoチャンネルでは、ゲーム実況、Vlog、日常の面白動画などを中心に配信しています。
+      watazkpチャンネルでは、ゲーム実況、Vlog、日常の面白動画などを中心に配信しています。
       見るだけで楽しくなるコンテンツをお届け！
     </p>
     <div class="text-center md:text-left">
@@ -134,7 +134,7 @@
     &copy; 2025 watazkp
   </footer>
 
-  <!-- JS: 粒子・流れる線・ランダム色 + YouTube RSSランダム -->
+  <!-- JS: 粒子・流れる線・ランダム色 + 手動動画IDランダム表示 -->
   <script>
     function randomColor() {
       const colors = ['#66ffff','#ff66ff','#66ff66','#ffff66','#ff6666','#66ffff'];
@@ -167,34 +167,27 @@
       document.body.appendChild(line);
     }
 
-    // YouTube RSS自動取得＆ランダム表示
-    const channelId = 'UCUHpoRIli8UjFYUrLCFocQg';
-    const maxResults = 6;
+    // 手動動画IDリスト（ここに最新動画IDを追加）
+    const videos = [
+      "VIDEO_ID_1",
+      "VIDEO_ID_2",
+      "VIDEO_ID_3",
+      "VIDEO_ID_4",
+      "VIDEO_ID_5",
+      "VIDEO_ID_6"
+    ];
+
+    videos.sort(() => Math.random() - 0.5); // ランダム並び替え
+
     const videoGrid = document.getElementById('video-grid');
-
-    async function fetchVideosRandom() {
-      const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-      const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`);
-      const data = await res.json();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(data.contents, "application/xml");
-      const entries = Array.from(xmlDoc.getElementsByTagName("entry"));
-
-      entries.sort(() => Math.random() - 0.5);
-
-      const displayCount = Math.min(maxResults, entries.length);
-      for(let i=0; i<displayCount; i++){
-        const videoId = entries[i].getElementsByTagName("yt:videoId")[0].textContent;
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube.com/embed/${videoId}`;
-        iframe.className = 'w-full h-64 sm:h-64 md:h-72 lg:h-80 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300';
-        iframe.frameBorder = 0;
-        iframe.allowFullscreen = true;
-        videoGrid.appendChild(iframe);
-      }
-    }
-
-    fetchVideosRandom();
+    videos.forEach(id => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${id}`;
+      iframe.className = 'w-full h-64 sm:h-64 md:h-72 lg:h-80 rounded-lg shadow-lg hover:scale-105 transition-transform duration-300';
+      iframe.frameBorder = 0;
+      iframe.allowFullscreen = true;
+      videoGrid.appendChild(iframe);
+    });
   </script>
 
 </body>
